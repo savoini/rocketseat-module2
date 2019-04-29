@@ -6,6 +6,11 @@ class UserController {
   }
 
   async store (req, res) {
+    if (!req.file || !req.file.filename) {
+      req.flash('error', 'Sua foto é obrigatório')
+      return res.redirect('/signup')
+    }
+
     const { filename: avatar } = req.file
 
     await User.create({ ...req.body, avatar })
